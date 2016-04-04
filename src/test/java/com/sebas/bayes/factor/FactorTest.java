@@ -43,7 +43,9 @@ public class FactorTest {
 				.newVariableInstantiationSet(varC.instantiate(true)), BigDecimal.valueOf(0.3)).addRow
 				(VariableInstantiationSets.newVariableInstantiationSet(varC.instantiate(false)), BigDecimal.valueOf(0.7)).getFactor();
 
+
 		System.out.println(factorA);
+
 		System.out.println(factorC);
 	}
 
@@ -57,6 +59,7 @@ public class FactorTest {
 	@Test
 	public void summingOut() {
 		Factor f = factorA.summingOut(Sets.newHashSet(varB));
+		// missing proper test
 		System.out.println(f);
 	}
 }
