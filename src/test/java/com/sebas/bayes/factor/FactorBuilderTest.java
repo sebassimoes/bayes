@@ -92,10 +92,11 @@ public class FactorBuilderTest {
 				("M"), varC.instantiate(true)), null);
 	}
 
-	@Test(expected = InvalidFactorValueException.class)
+	@Test
 	public void addFactorValueGreaterThanOne() {
 		builder.addRow(VariableInstantiationSets.newVariableInstantiationSet(varA.instantiate("1"), varB.instantiate
 				("M"), varC.instantiate(true)), BigDecimal.TEN);
+		Assert.assertTrue(true);
 	}
 
 	@Test(expected = InvalidFactorTableSizeException.class)
