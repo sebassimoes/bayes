@@ -6,14 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import java.math.BigDecimal;
 import java.security.InvalidParameterException;
 
-/**
- * Bayesian Networks Java Implementation.
- * Created by sebas.simoes on 26/03/2016.
- * <p>
- * The source code is intelectual property of sebas.simoes@gmail.com
- * <p>
- * Revision: $SCM_REVISION, $SCM_REVISION_DATE
- */
 class FactorRow {
 
 	private final VariableInstantiationSet instantiation;

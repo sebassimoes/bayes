@@ -12,18 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Bayesian Networks Java Implementation.
- * Created by sebas.simoes on 26/03/2016.
- * <p>
- * The source code is intelectual property of sebas.simoes@gmail.com
- * <p>
- * Revision: $SCM_REVISION, $SCM_REVISION_DATE
- */
-
-/**
  * Factor function which assigns a non-negative value to each combination of variables instantiation.
  */
-// TODO - use the {@link VariableInstantiationSet} instead of the Set of variable instantiations.
 public final class Factor {
 
 	private final String label;
@@ -44,8 +34,12 @@ public final class Factor {
 	 * @return the resulting factor
 	 */
 	public Factor multiply(final Factor factor) {
+		if (factor == null) {
+			// TODO change this! -> a new instance should be returned.
+			return this;
+		}
 		final Set<DiscreteVariable<?>> newVariableSet = Sets.union(this.vars, factor.vars());
-		final FactorBuilder builder = new FactorBuilder(String.format("%s.%s", this.getLabel(), factor.getLabel()),
+		final FactorBuilder builder = new FactorBuilder(String.format("(%s.%s)", this.getLabel(), factor.getLabel()),
 				newVariableSet);
 		final Collection<VariableInstantiationSet> allVariablesInstantiations = VariableInstantiationSets
 				.cartesianProduct(newVariableSet);
@@ -66,7 +60,7 @@ public final class Factor {
 		final Set<DiscreteVariable<?>> newVariableSet = Sets.difference(this.vars, variables);
 		final String setString = variables.stream().reduce("", (aggr, discreteVariable2) -> aggr.concat
 				(discreteVariable2.getLabel()), (s, s2) -> s.concat(s2));
-		final String newFactorLabel = String.format("%s\\{%s}", this.getLabel(), setString);
+		final String newFactorLabel = String.format("(%s\\{%s})", this.getLabel(), setString);
 		final FactorBuilder builder = new FactorBuilder(newFactorLabel, newVariableSet);
 
 		// sum out the variables and add the new rows to the builder.
@@ -97,6 +91,10 @@ public final class Factor {
 	 */
 	public Set<DiscreteVariable<?>> vars() {
 		return this.vars;
+	}
+
+	public boolean containsVar(final DiscreteVariable<?> variable) {
+		return this.vars().contains(variable);
 	}
 
 	/**
@@ -200,8 +198,8 @@ public final class Factor {
 		}
 
 		private Integer size() {
-			return this.factorVariables.parallelStream().reduce(1, (aggr, v) -> aggr *= v.dimension(), (v1, v2) -> v1
-					* v2);
+			return this.factorVariables.isEmpty() ? 0 : this.factorVariables.parallelStream().reduce(1, (aggr, v) ->
+					aggr *= v.dimension(), (v1, v2) -> v1 * v2);
 		}
 
 	}
