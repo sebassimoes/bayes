@@ -5,7 +5,10 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class VariableInstantiationSet implements Iterable {
+/**
+ * An
+ */
+public final class VariableInstantiationSet implements Iterable {
 
 	private Set<VariableInstantiation<?>> variableInstantiations;
 
@@ -17,11 +20,16 @@ public class VariableInstantiationSet implements Iterable {
 		this.variableInstantiations = new HashSet<>(variableInstantiations);
 	}
 
-	public VariableInstantiationSet removeVariable(DiscreteVariable<?> variable) {
+	public VariableInstantiationSet addVariableInstantiation(final VariableInstantiation<?> variableInstantiation) {
+		this.variableInstantiations.add(variableInstantiation);
+		return new VariableInstantiationSet(this.variableInstantiations);
+	}
+
+	public VariableInstantiationSet removeVariable(final DiscreteVariable<?> variable) {
 		return this.removeVariables(Arrays.asList(variable));
 	}
 
-	public VariableInstantiationSet removeVariables(Collection<DiscreteVariable<?>> variables) {
+	public VariableInstantiationSet removeVariables(final Collection<DiscreteVariable<?>> variables) {
 		return new VariableInstantiationSet(this.stream().filter(i -> !variables.contains(i.getVariable())).collect
 				(Collectors.toSet()));
 	}
@@ -47,11 +55,11 @@ public class VariableInstantiationSet implements Iterable {
 		return this.variableInstantiations.containsAll(variableInstantiationSet.variableInstantiations);
 	}
 
-	public boolean containsVariables(Collection<DiscreteVariable<?>> variables) {
+	public boolean containsVariables(final Collection<DiscreteVariable<?>> variables) {
 		return this.stream().map(i -> i.getVariable()).collect(Collectors.toSet()).containsAll(variables);
 	}
 
-	public boolean containsVariable(DiscreteVariable<?> variable) {
+	public boolean containsVariable(final DiscreteVariable<?> variable) {
 		return this.containsVariables(Arrays.asList(variable));
 	}
 

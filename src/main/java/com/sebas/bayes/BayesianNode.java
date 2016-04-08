@@ -20,4 +20,11 @@ public class BayesianNode {
 	public Factor getCptFactor() {
 		return cptFactor;
 	}
+
+	@Override
+	public String toString() {
+		return "BayesianNode{" +
+				"variable=" + variable +
+				'}';
+	}
 }
